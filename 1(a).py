@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-original_image = cv2.imread('image1.png', cv2.IMREAD_GRAYSCALE)
+original_image = cv2.imread('image1.png')
 
 window_size = (512, 512)
 
@@ -9,7 +9,7 @@ cv2.namedWindow('Image', cv2.WINDOW_NORMAL)
 cv2.resizeWindow('Image', *window_size)
 
 cv2.imshow('Image', original_image)
-cv2.waitKey(1000) # Display for 1 second
+cv2.waitKey(1000) 
 
 resized_image = original_image.copy()
 while resized_image.shape[0] > 10 and resized_image.shape[1] > 10:

@@ -1,43 +1,29 @@
 import cv2
+import numpy as np
 
-# Load the image
-img = cv2.imread('image1.jpg')
+# Load the original grayscale image of size 512x512
+original_image = cv2.imread('image1.png' )
 
-# Set the new resolution
-new_width, new_height = (560, 560)
+# Determine the window size
+window_size = (512, 512)
 
-# Resize the image
-img_resized = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_AREA)
+# Create a window to display images
+cv2.namedWindow('Image', cv2.WINDOW_NORMAL)
+cv2.resizeWindow('Image', *window_size)
 
-# Save the resized image
-cv2.imwrite('resized_image.jpg', img_resized)
-
-# Half the resolution
-half_width, half_height = (new_width // 2, new_height // 2)
-
-# Resize the image again
-img_half_resized = cv2.resize(img_resized, (half_width, half_height), interpolation=cv2.INTER_AREA)
-
-# Save the half-resized image
-cv2.imwrite('half_resized_image.jpg', img_half_resized)
-
-# Set the window size
-window_width, window_height = (560, 560)
-
-# Create named windows
-cv2.namedWindow('Original', cv2.WINDOW_NORMAL)
-cv2.namedWindow('Half Resolution', cv2.WINDOW_NORMAL)
-
-# Set the window sizes
-cv2.resizeWindow('Original', window_width, window_height)
-cv2.resizeWindow('Half Resolution', window_width, window_height)
-
-# Display the images
-cv2.imshow('Original', img_resized)
-cv2.imshow('Half Resolution', img_half_resized)
-
-# Wait for a key press
+# Display the original image
+cv2.imshow('Image', original_image)
 cv2.waitKey(0)
 
-# Close all windows
+# Reduce intensity resolution to binary
+intensity_step = 255 / 1  # Binary format (1-bit intensity)
+quantized_image = (original_image // intensity_step) * intensity_step
+
+# Convert to binary image
+binary_image = np.where(quantized_image >= 128, 255, 0).astype(np.uint8)
+
+# Display binary image
+cv2.imshow('Image', cv2.resize(binary_image, window_size))
+cv2.waitKey(0)
+
 cv2.destroyAllWindows()
